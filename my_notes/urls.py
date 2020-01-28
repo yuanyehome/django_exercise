@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.views import static
+from django.conf.urls import url
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls', namespace='users')),
-    path('', include('my_notes_app.urls', namespace='my_notes_app')),
     path('favicon.ico', RedirectView.as_view(url='static/favicon.ico')),
+    path('', include('my_notes_app.urls', namespace='my_notes_app')),
+    url(r'^static/(?P<path>.*)$', static.serve,
+        {'document_root': settings.STATIC_ROOT}, name='static'),
 ]
