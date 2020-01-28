@@ -87,8 +87,8 @@ DATABASES = {
         'NAME': 'django_exercise',
         'USER': 'root',
         'PASSWORD': 'yuanye985962',
-        'HOST': 'cdb-ptgvrpkc.bj.tencentcdb.com',
-        'PORT': '10200'
+        'HOST': '172.21.0.8',
+        'PORT': '3306'
     }
 }
 
