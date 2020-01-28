@@ -1,0 +1,59 @@
+{% extends 'my_notes_app/base.html'%}
+
+{% block header %}
+    <h2>
+        {{ topic }}
+        <small>
+            <a href="{% url 'my_notes_app:edit_topic' topic.id %}">edit</a>
+        </small>
+    </h2>
+    <script>
+        function confirm_delete(entry_id) {
+            if (confirm("Are you sure to delete this data? It is irreversible.")) {
+                console.log("delete this entry");
+                console.log(entry_id);
+                var request = new XMLHttpRequest();
+                request.onload = function () {
+                    if (request.status == 200) {
+                        console.log("delete complete!");
+                        location.reload();
+                    }
+                    else {
+                        console.log("Something is wrong");
+                        console.log(request.response);
+                    }
+                }
+                request.open("GET", "/delete_entry/" + entry_id.toString());
+                request.send();
+            }
+        }
+    </script>
+{% endblock header %}
+
+{% block content %}
+    <h4><a href="{% url 'my_notes_app:new_entry' topic.id %}">Add a new entry=></a></h4>
+    {% for entry in entries %}
+        <div class="panel panel-default" id="{{ entry.id }}">
+            <div class="panel-heading">
+                <h3>
+                    {{ entry.date_added|date:'M d, Y H:i' }}
+                    <small>
+                        <a href="{% url 'my_notes_app:edit_entry' entry.id %}">edit entry</a>
+                        <button onclick="confirm_delete({{ entry.id }})">
+                            <font color="red">
+                                delete entry
+                            </font>
+                        </button>
+                    </small>
+                </h3>
+            </div>
+            <div class="panel-body">
+                {{ entry.text|linebreaks }}
+            </div>
+        </div>
+    {% empty %}
+        <h4>There are no entries for this topic yet. Click "Add a new entry" to start your notes.</h4>
+    {% endfor %}
+
+{% endblock content %}
+

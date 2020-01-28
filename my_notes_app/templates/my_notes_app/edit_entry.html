@@ -1,0 +1,18 @@
+{% extends 'my_notes_app/base.html' %}
+{% load bootstrap3 %}
+
+{% block header %}
+    <h2>Edit this item</h2>
+{% endblock header %}
+
+{% block content %}
+    <h4>Topic: <a href="{% url 'my_notes_app:topic' topic.id %}">{{ topic }}</a></h4>
+
+    <form action="{% url 'my_notes_app:edit_entry' entry.id%}" method='post'>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">save changes</button>
+        {% endbuttons %}
+    </form>
+{% endblock content %}

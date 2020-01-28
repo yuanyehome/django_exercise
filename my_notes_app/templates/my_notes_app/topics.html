@@ -1,0 +1,49 @@
+{% extends 'my_notes_app/base.html' %}
+
+{% block header %}
+    <h1>Topics</h1>
+    <script>
+        function confirm_delete(topic_id) {
+            if (confirm("Are you sure to delete this topic and all its items? It is irreversible.")) {
+                console.log("delete this topic");
+                console.log(topic_id);
+                var request = new XMLHttpRequest();
+                request.onload = function () {
+                    if (request.status == 200) {
+                        console.log("delete complete!");
+                        location.reload();
+                    }
+                    else {
+                        console.log("Something is wrong");
+                        console.log(request.response);
+                    }
+                }
+                request.open("GET", "/delete_topic/" + topic_id.toString());
+                request.send();
+            }
+        }
+    </script>
+{% endblock header %}
+
+{% block content %}
+    {% if topics|length != 0 %}
+    {% else %}
+        <h3>[INFO] No topics have been added yet.</h3>
+    {% endif %}
+    <ul>
+        {% for topic in topics %}
+            <li><h3>
+                <a href="{% url 'my_notes_app:topic' topic.id%}">{{topic}}</a>
+                <small>
+                    <button onclick="confirm_delete({{ topic.id }})">
+                        <font color="red">
+                            delete
+                        </font>
+                    </button>
+                </small>
+            </li></h3>
+        {% endfor %}
+    </ul>
+
+    <h3><a href="{% url 'my_notes_app:new_topic' %}">Add a new topic =></a></h3>
+{% endblock content %}
