@@ -13,5 +13,5 @@ urlpatterns = [
     path('edit_entry/<entry_id>', views.edit_entry, name='edit_entry'),
     path('delete_entry/<entry_id>', views.delete_entry, name='delete_entry'),
     path('delete_topic/<topic_id>', views.delete_topic, name='delete_topic'),
-    path('edit_topic/<topic_id>', views.edit_topic, name='edit_topic')
+    path('edit_topic/<topic_id>', views.edit_topic, name='edit_topic'),
 ]
